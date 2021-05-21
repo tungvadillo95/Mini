@@ -1,0 +1,36 @@
+﻿@model UserView
+@{
+    ViewData["Title"] = "Detail User";
+    var imagePath = $"/img/{(Model.AvatarPath ?? "none_avatar.png")}";
+}
+<h3 class="text-center text-primary m-3">@Model.FullName</h3>
+<div class="row col-12 justify-content-center">
+    <div class="col-xl-8 col-sm-6">
+        <div class="card">
+            <div class="card-body">
+                <p><b>Họ và tên:</b> @Model.FullName</p>
+                <p><b>Giới tính:</b> @(Model.Gender == true ? "Nam" : "Nữ")</p>
+                <p><b>Ngày sinh:</b> @Model.DobStr</p>
+                <p><b>Email:</b> @Model.Email</p>
+                <p><b>Số điện thoại:</b> @Model.PhoneNumber</p>
+                <p><b>Chức vụ:</b> @Model.RoleName</p>
+                @if (Model.Responsible != null)
+                {
+                    <p><b>GVCN:</b> @Model.Responsible</p>
+                }
+                @if (Model.SubjectsStr != null)
+                {
+                    <p><b>Môn dạy:</b> @Model.SubjectsStr</p>
+                }
+                <p><b>Lớp:</b> @Model.Courses</p>
+                <p><b>Trạng thái:</b> @Model.StatusName</p>
+            </div>
+            <div class="card-footer text-center">
+                <a asp-controller="Home" asp-action="Index" class="btn btn-success">Quay lại</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4 col-sm-6 text-center">
+        <img src="@imagePath" class="m-2" style="width: 220px; height: 260px;" />
+    </div>
+</div>

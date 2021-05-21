@@ -1,0 +1,100 @@
+﻿@{
+    ViewData["Title"] = "Teachers Course";
+    var courseId = Model;
+}
+<div class="text-left">
+    <input type="number" value="@courseId" hidden id="courseId" />
+    <br />
+    <h3 class="text-success text-center">QUẢN LÝ GIÁO VIÊN BỘ MÔN</h3>
+    <div class="row">
+        <h5 class="text-primary" id="courseInfo"></h5>
+    </div>
+    <hr />
+    <table id="tbTeachersCourse" class="table table-bordered table-hover table-primary mt-2">
+        <thead class="thead-dark">
+            <tr class="text-center">
+                <th>Môn học</th>
+                <th>Giáo viên</th>
+                <th>Email</th>
+                <th>Số điện thoại</th>
+                <th>Ảnh đại diện</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
+<!-- The Modal -->
+<div class="modal" id="addEditCourseTeacherModal">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title text-primary" id="modalCourseTeacherTitle"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form id="fromAddEditCourseTeacher">
+                    <input hidden name="SubjectId" id="SubjectId" />
+                    <div class="row col-xl-12">
+                        <div class="col-xl-6 col-md-12">
+                            <h5 class="text-center text-success mt-1">THÔNG TIN GIÁO VIÊN</h5>
+                            <div class="col-12">
+                                <h6 id="msgInfoTeacher" class="alert alert-danger text-center"></h6>
+                            </div>
+                            <div id="dataInfoTeacher">
+                                <div class=" row col-12">
+                                    <div class="col-9">
+                                        <p><b>Tên giáo viên:</b>&nbsp;<span class="text-break infoTeacher" id="TeacherName"></span></p>
+                                        <p><b>Giới tính:</b>&nbsp;<span class="text-break infoTeacher" id="GenderName"></span></p>
+                                        <p><b>Ngày sinh:</b>&nbsp;<span class="text-break infoTeacher" id="DobStr"></span></p>
+                                        <p><b>Môn dạy:</b>&nbsp;<span class="text-break infoTeacher" id="Subjects"></span></p>
+                                        <p><b>Email:</b>&nbsp;<span class="text-break infoTeacher" id="Email"></span></p>
+                                        <p><b>Số điện thoại:</b>&nbsp;<span class="text-break infoTeacher" id="PhoneNumber"></span></p>
+                                    </div>
+                                    <div class="col-3">
+                                        <img class="m-1" style="width: 100px; height: 130px; border: 4px solid orange;" id="imgTeacher" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-md-12">
+                            <h5 class="text-center text-warning">CHỌN GIÁO VIÊN BỘ MÔN</h5>
+                            <h6 class="text-info" id="modalCourseInfo"></h6>
+                            <h6 class="text-info" id="modalSubjectInfo"></h6>
+                            <br />
+                            <div class="row form-group">
+                                <label for="TeacherId" class="col-3 font-weight-bold">Giáo viên:</label>
+                                <div class="col-9">
+                                    <select class="form-control" id="SubjectTeachers" name="SubjectTeachers" style="color: black;"
+                                            data-rule-required="true"
+                                            data-msg-required="Chưa chọn giáo viên bộ môn"
+                                            onchange="teacherCourse.checkTeacher()">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <h5 class="alert alert-danger text-break text-center" id="msgResult" style="margin-right: auto;"></h5>
+                <a href="javascript:;" class="btn btn-success" onclick="teacherCourse.saveTeacher()">Lưu</a>
+                <button type="button" class="btn btn-danger" id="closeModal" data-dismiss="modal">Hủy</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/teachercourse.js" asp-append-version="true"></script>
+}

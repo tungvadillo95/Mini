@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Course List";
+}
+<div class="text-left">
+    <br />
+    <h3 class="text-success text-center">QUẢN LÝ LỚP HỌC</h3>
+    <hr />
+    <table id="tbCourses" class="table table-bordered table-hover table-primary mt-2">
+        <thead class="thead-dark">
+            <tr class="text-center">
+                <th>#ID</th>
+                <th>Tên lớp</th>
+                <th>Sĩ số</th>
+                <th>GVCN</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
+@section Scripts{
+    <script src="~/js/course.js" asp-append-version="true"></script>
+}

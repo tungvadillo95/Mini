@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Detail Point";
+}
+<h3 class="text-center text-primary m-3">BẢNG ĐIỂM MÔN HỌC</h3>
+<h5 class="text-success text-break" id="studentName"></h5>
+<h5 class="text-success text-break" id="courseName"></h5>
+<div class="row col-12 justify-content-center">
+    <table id="tbTranscriptDetails" class="table table-bordered table-hover table-primary mt-2">
+        <thead class="thead-dark">
+            <tr class="text-center">
+                <th>Môn học</th>
+                <th>Giáo viên giảng dạy</th>
+                <th>Hệ số 1</th>
+                <th>Hệ số 2</th>
+                <th>Hệ số 3</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-success">Quay lại</a>
+</div>
+
+@section Scripts{
+    <script src="~/js/transcriptDetails.js" asp-append-version="true"></script>
+}

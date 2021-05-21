@@ -1,0 +1,224 @@
+﻿@{
+    ViewData["Title"] = "Teachers";
+    var avatarPath = "~/img/none_avatar.png";
+}
+<style>
+    .error {
+        color: red;
+    }
+</style>
+<div class="text-left">
+    <br />
+    <h3 class="text-success text-center">QUẢN LÝ GIÁO VIÊN</h3>
+    <div class="row">
+        <a href="javascript:;" onclick="teacher.openModal()" class="btn btn-primary ml-auto" style="width: auto;">+ Thêm giáo viên</a>
+    </div>
+    <hr />
+    <table id="tbTeachers" class="table table-bordered table-hover table-primary mt-2">
+        <thead class="thead-dark">
+            <tr class="text-center">
+                <th>STT</th>
+                <th>Họ và tên</th>
+                <th>Giới tính</th>
+                <th>Ngày sinh</th>
+                <th>Số điện thoại</th>
+                <th>GVCN/Môn</th>
+                <th>Trạng thái</th>
+                <th>Ảnh đại diện</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+<!-- The Modal -->
+<div class="modal" id="addEditTeacherModal">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title text-primary" id="modalTeacherTitle"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form id="fromAddEditTeacher">
+                    <input hidden name="AccountId" id="AccountId" />
+                    <input hidden name="AvatarPath" id="AvatarPath" value="" />
+                    <input hidden name="CourseId" id="CourseId" />
+                    <div class="row col-xl-12">
+                        <div class="col-xl-8 col-md-12">
+                            <div class="row form-group">
+                                <label for="FullName" class="col-3 font-weight-bold">Họ và tên:</label>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" placeholder="Tên giáo viên"  style="color: black;"
+                                           id="FullName" name="FullName"
+                                           data-rule-required="true"
+                                           data-msg-required="Tên giáo viên không được để trống"
+                                           data-rule-maxlength="50"
+                                           data-msg-maxlength="Tên giáo viên quá dài">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <label for="Gender" class="col-3 font-weight-bold">Giới tính:</label>
+                                <div class="col-9">
+                                    <select class="custom-select" id="Gender" name="Gender" style="color: black;"
+                                            data-rule-required="true"
+                                            data-msg-required="Chưa chọn giới tính">
+                                        <option selected value="">-Chọn-</option>
+                                        <option value="true">Nam</option>
+                                        <option value="false">Nữ</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <label for="Dob" class="col-3 font-weight-bold">Ngày sinh:</label>
+                                <div class="col-9">
+                                    <input type="date" class="form-control" my-date-format="dd/MM/yyyy" style="color: black;"
+                                           id="Dob" name="Dob"
+                                           onkeyup="user.checkOld(18, 50)"
+                                           data-rule-required="true"
+                                           data-msg-required="Ngày sinh không được để trống">
+                                    <label id="msgDob" class="error"></label>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <label for="SubjectIds" class="col-3 font-weight-bold">Môn dạy:</label>
+                                <div class="col-9">
+                                    <select class="js-example-basic-multiple custom-select" name="SubjectIds" id="SubjectIds" multiple="multiple"
+                                            data-rule-required="true"
+                                            data-msg-required="Chưa chọn môn dạy">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <label for="Email" class="col-3 font-weight-bold">Email(Tên đăng nhập):</label>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" placeholder="Email"  style="color: black;"
+                                           id="Email" name="Email"
+                                           onkeyup="user.checkEmail()"
+                                           data-rule-required="true"
+                                           data-msg-required="Email không được để trống"
+                                           data-rule-maxlength="100"
+                                           data-msg-maxlength="Email quá dài">
+                                    <label id="msgEmail" class="error"></label>
+                                </div>
+                            </div>
+                            <div class="row form-group" id="pw">
+                                <label for="Password" class="col-3 font-weight-bold">Mật khẩu:</label>
+                                <div class="col-9">
+                                    <input type="password" class="form-control" placeholder="Mật khẩu"
+                                           onkeyup="user.checkPassword()"
+                                           id="Password" name="Password"
+                                           data-rule-required="true"
+                                           data-msg-required="Mật khẩu không được để trống"
+                                           data-rule-maxlength="30"
+                                           data-msg-maxlength="Mật khẩu quá dài">
+                                    <label id="msgPassword" class="error"></label>
+                                </div>
+                            </div>
+                            <div class="row form-group" id="cpw">
+                                <label for="ConfirmPassword" class="col-3 font-weight-bold">Nhập lại mật khẩu:</label>
+                                <div class="col-9">
+                                    <input type="password" class="form-control" placeholder="Nhập lại mật khẩu"
+                                           onkeyup="user.checkConfirmPassword()"
+                                           id="ConfirmPassword" name="ConfirmPassword"
+                                           data-rule-required="true"
+                                           data-msg-required="Chưa nhập lại mật khẩu">
+                                    <label id="msgConfirmPassword" class="error"></label>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <label for="PhoneNumber" class="col-3 font-weight-bold">Số điện thoại:</label>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" placeholder="Số điện thoại"  style="color: black;"
+                                           id="PhoneNumber" name="PhoneNumber"
+                                           onkeyup="user.checkPhone()"
+                                           data-rule-required="true"
+                                           data-msg-required="Số điện thoại không được để trống"
+                                           data-rule-maxlength="10"
+                                           data-msg-maxlength="Số điện thoại quá dài" />
+                                    <label id="msgPhone" class="error"></label>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <label for="Address" class="col-3 font-weight-bold">Địa chỉ:</label>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" placeholder="Địa chỉ"
+                                           id="Address" name="Address"
+                                           data-rule-required="true"
+                                           data-msg-required="Địa chỉ không được để trống"
+                                           data-rule-maxlength="100"
+                                           data-msg-maxlength="Địa chỉ quá dài"
+                                           style="color: black;">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <label for="Avatar" class="col-3 font-weight-bold">Hình ảnh:</label>
+                                <div class="col-9">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input form-control" placeholder="Ảnh đại diện"
+                                               id="Avatar" name="Avatar">
+                                        <label class="custom-file-label" for="Avatar" id="labelFile">Chọn file</label>
+                                        <label id="msgAvatar" class="error"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-md-12">
+                            <div class="m-5">
+                                <img src="@avatarPath" id="image_upload_preview" asp-append-version="true" style="width:300px; height: 325px;" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <h5 class="alert alert-danger text-break text-center" id="msgResult" style="margin-right: auto;"></h5>
+                <a href="javascript:;" class="btn btn-success" onclick="teacher.checkSaveTeacher()">Lưu</a>
+                <button type="button" class="btn btn-danger" id="closeModal" data-dismiss="modal">Hủy</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="~/lib/select2/js/select2.min.js"></script>
+    <script src="~/js/user.js" asp-append-version="true"></script>
+    <script src="~/js/teacher.js" asp-append-version="true"></script>
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#image_upload_preview').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $("#Avatar").change(function () {
+            readURL(this);
+        });
+        $(document).ready(function () {
+            $(".custom-file-input").on("change", function () {
+                var fileName = $(this).val().split("\\").pop();
+                if (fileName.includes(".png") || fileName.includes(".jpg")) {
+                    user.checkAvatar = true;
+                    $("#msgAvatar").hide();
+                } else {
+                    user.checkAvatar = false;
+                    $("#msgAvatar").text('File ảnh không đúng định dạng');
+                    $("#msgAvatar").show();
+                }
+                $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+            });
+        });
+    </script>
+}
